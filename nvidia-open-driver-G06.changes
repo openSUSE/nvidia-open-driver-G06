@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Jan 24 23:55:39 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- added conflicts to nvidia-driver-G06-kmp package (boo#1207495) 
+
+-------------------------------------------------------------------
 Thu Jan 19 20:05:23 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - Update to version 525.85.05
