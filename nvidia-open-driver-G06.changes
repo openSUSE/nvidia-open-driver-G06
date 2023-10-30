@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Jan  9 14:34:13 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- preamble: require also gcc-c++
+
+-------------------------------------------------------------------
 Mon Jan  9 14:07:38 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - require kernel-firmware-nvidia-gsp-G06 (with suffix -G06!)
