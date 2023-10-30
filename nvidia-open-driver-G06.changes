@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Sun Jan  8 19:53:51 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- re-enabled and fixed build for -azure kernels
+
+-------------------------------------------------------------------
 Thu Jan  5 19:41:17 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - no longer buildrequire azure on all architecture; build issues

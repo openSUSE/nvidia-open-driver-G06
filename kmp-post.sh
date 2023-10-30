@@ -14,11 +14,20 @@ flavor=%1
 #export JOBS=${CONCURRENCY_LEVEL} && \
 #export __JOBS=${JOBS} && \ 
 #export MAKEFLAGS="-j ${JOBS}"
+if [ "$flavor" == "azure" ]; then
+kver=$(make -j$(nproc) -sC /usr/src/linux-%{2}-azure-obj/$arch/$flavor kernelrelease)
+else
 kver=$(make -j$(nproc) -sC /usr/src/linux-%{2}-obj/$arch/$flavor kernelrelease)
+fi
 RES=0
 
-export SYSSRC=/usr/src/linux-%{2}
-export SYSOUT=/usr/src/linux-%{2}-obj/$arch/$flavor
+if [ "$flavor" == "azure" ]; then
+    export SYSSRC=/usr/src/linux-%{2}-azure
+    export SYSOUT=/usr/src/linux-%{2}-azure-obj/$arch/$flavor
+else
+    export SYSSRC=/usr/src/linux-%{2}
+    export SYSOUT=/usr/src/linux-%{2}-obj/$arch/$flavor
+fi
 
 pushd /usr/src/kernel-modules/nvidia-%{-v*}-$flavor
 make -j$(nproc) modules || RES=1
