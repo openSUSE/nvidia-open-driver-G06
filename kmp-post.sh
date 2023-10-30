@@ -14,18 +14,22 @@ flavor=%1
 #export JOBS=${CONCURRENCY_LEVEL} && \
 #export __JOBS=${JOBS} && \ 
 #export MAKEFLAGS="-j ${JOBS}"
-kver=$(make -j$(nproc) -sC /usr/src/linux-%{2}*-obj/$arch/$flavor kernelrelease)
+kver=$(make -j$(nproc) -sC /usr/src/linux-%{2}-obj/$arch/$flavor kernelrelease)
 RES=0
-make -j$(nproc) -C /usr/src/linux-%{2}*-obj/$arch/$flavor \
-     modules \
-     M=/usr/src/kernel-modules/nvidia-%{-v*}-$flavor \
-     SYSSRC=/lib/modules/$kver/source \
-     SYSOUT=/usr/src/linux-%{2}*-obj/$arch/$flavor || RES=1
+
+export SYSSRC=/usr/src/linux-%{2}
+export SYSOUT=/usr/src/linux-%{2}-obj/$arch/$flavor
+
+pushd /usr/src/kernel-modules/nvidia-%{-v*}-$flavor
+make -j$(nproc) modules || RES=1
+
 # remove still existing old kernel modules (boo#1174204)
 rm -f /lib/modules/$kver/updates/nvidia*.ko
-install -m 755 -d /lib/modules/$kver/updates
-install -m 644 /usr/src/kernel-modules/nvidia-%{-v*}-$flavor/nvidia*.ko \
-        /lib/modules/$kver/updates
+
+export INSTALL_MOD_DIR=updates
+make modules_install
+popd
+
 depmod $kver
 
 # cleanup (boo#1200310)

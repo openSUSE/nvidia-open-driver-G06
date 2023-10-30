@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Jan  5 17:16:56 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- fixed build of %post/%trigger
+
+-------------------------------------------------------------------
 Thu Jan  5 12:19:29 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - new package nvidia-open-driver-G06, which is an alternative

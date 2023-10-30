@@ -21,14 +21,17 @@ flavor=%1
 #export MAKEFLAGS="-j ${JOBS}"
 kver=$(make -j$(nproc) -sC /usr/src/linux-obj/$arch/$flavor kernelrelease)
 RES=0
-make -j$(nproc) -C /usr/src/linux-obj/$arch/$flavor \
-     modules \
-     M=/usr/src/kernel-modules/nvidia-%{-v*}-$flavor \
-     SYSSRC=/lib/modules/$kver/source \
-     SYSOUT=/usr/src/linux-obj/$arch/$flavor || RES=1
-install -m 755 -d /lib/modules/$kver/updates
-install -m 644 /usr/src/kernel-modules/nvidia-%{-v*}-$flavor/nvidia*.ko \
-        /lib/modules/$kver/updates
+
+export SYSSRC=/usr/src/linux
+export SYSOUT=/usr/src/linux-obj/$arch/$flavor
+
+pushd /usr/src/kernel-modules/nvidia-%{-v*}-$flavor
+make -j$(nproc) modules || RES=1
+
+export INSTALL_MOD_DIR=updates
+make modules_install
+popd
+
 depmod $kver
 
 # cleanup (boo#1200310)
