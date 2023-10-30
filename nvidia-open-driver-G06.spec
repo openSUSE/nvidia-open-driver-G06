@@ -54,7 +54,6 @@ BuildRequires:  gcc-c++
 BuildRequires:  kernel-source
 BuildRequires:  kernel-syms
 BuildRequires:  perl-Bootloader
-BuildRequires:  pesign-obs-integration
 BuildRequires:  zstd
 %ifnarch aarch64
 %if 0%{?sle_version} >= 120400 && !0%{?is_opensuse} 
@@ -134,8 +133,8 @@ for flavor in %{flavors_to_build}; do
 done
 
 %install
-export BRP_PESIGN_FILES="*.ko"
-export BRP_PESIGN_COMPRESS_MODULE=%{compress_modules}
+### do not sign the ghost .ko file, it is generated on target system anyway
+export BRP_PESIGN_FILES=""
 export INSTALL_MOD_PATH=%{buildroot}
 export INSTALL_MOD_DIR=updates
 for flavor in %{flavors_to_build}; do

@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Jan  5 17:53:55 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- do not sign the ghost .ko file, it is generated on target system
+  anyway; don't compress module; just makes signing more complicated
+- removed pesign integration completely
+
+-------------------------------------------------------------------
 Thu Jan  5 17:16:56 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - fixed build of %post/%trigger
