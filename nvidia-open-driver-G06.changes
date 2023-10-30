@@ -1,4 +1,16 @@
 -------------------------------------------------------------------
+Mon Jan  9 12:42:29 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- Update to version 525.78.01
+  * adds alpha support for 
+    + NVIDIA GeForce RTX 3050
+    + NVIDIA GeForce RTX 4090
+    + NVIDIA RTX 6000 Ada Generation
+    + NVIDIA L40
+    + NVIDIA GeForce RTX 4080
+    + NVIDIA GeForce RTX 4070 Ti
+
+-------------------------------------------------------------------
 Sun Jan  8 19:53:51 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - re-enabled and fixed build for -azure kernels

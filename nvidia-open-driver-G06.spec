@@ -29,7 +29,7 @@
 %define compress_modules xz
 %endif
 Name:           nvidia-open-driver-G06
-Version:        525.60.11
+Version:        525.78.01
 Release:        0
 Summary:        NVIDIA open kernel module driver for GeForce RTX 2000 series and newer
 License:        GPL-2.0 and MIT
