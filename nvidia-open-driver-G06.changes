@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Jan 19 20:05:23 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- Update to version 525.85.05
+  * Fix build problems with Clang 15.0, #377 by @ptr1337
+
+-------------------------------------------------------------------
 Mon Jan  9 14:34:13 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - preamble: require also gcc-c++
