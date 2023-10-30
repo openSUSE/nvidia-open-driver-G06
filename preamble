@@ -1,0 +1,11 @@
+BuildRequires: kernel-syms
+BuildRequires: kmod
+PreReq: kernel-%1
+PreReq: kernel-%1-devel make gcc
+Requires: kernel-firmware-nvidia-gsp = %{-v*}
+Requires: perl-Bootloader
+Requires: openssl
+Requires: mokutil
+Conflicts: nvidia-gfxG06-kmp  nvidia-open-driver-G06-signed-kmp
+Supplements: (kernel-%1 and %name)
+
