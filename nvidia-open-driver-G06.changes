@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Jan  9 14:07:38 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- require kernel-firmware-nvidia-gsp-G06 (with suffix -G06!)
+
+-------------------------------------------------------------------
 Mon Jan  9 12:42:29 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - Update to version 525.78.01

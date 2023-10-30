@@ -6,7 +6,7 @@ PreReq: kernel-%1-devel = %2 make gcc
 %else
 PreReq: kernel-%1-devel make gcc
 %endif
-Requires: kernel-firmware-nvidia-gsp = %{-v*}
+Requires: kernel-firmware-nvidia-gsp-G06 = %{-v*}
 Requires: perl-Bootloader
 Requires: openssl
 Requires: mokutil
