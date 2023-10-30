@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Sat Mar  4 19:53:35 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- sign kernel modules also on TW (boo#1208939)
+
+-------------------------------------------------------------------
 Wed Feb  8 21:51:16 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - Update to version 525.89.02 
