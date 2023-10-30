@@ -118,7 +118,7 @@ export CFLAGS="-Wall -mno-outline-atomics"
 %endif
 # kernel was compiled using a different compiler
 export CC=gcc
-# no longer needed and never worked anyway (it was only a stub)
+# no longer needed and never worked anyway (it was only a stub) [boo#1211892]
 export NV_EXCLUDE_KERNEL_MODULES=nvidia-peermem
 for flavor in %{flavors_to_build}; do
         rm -rf obj/$flavor
