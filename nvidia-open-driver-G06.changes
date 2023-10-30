@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Sep 22 09:58:42 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- Update to version 535.113.01 
+
+-------------------------------------------------------------------
 Tue Sep  5 08:00:26 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - kmp-post.sh/kmp-postun.sh:
