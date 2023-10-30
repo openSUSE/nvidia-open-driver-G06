@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Thu Jan  5 19:41:17 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- no longer buildrequire azure on all architecture; build issues
+  in %post for some reason ...
+
+-------------------------------------------------------------------
 Thu Jan  5 17:53:55 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - do not sign the ghost .ko file, it is generated on target system
