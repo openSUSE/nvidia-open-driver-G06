@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Nov  1 19:46:55 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- Update to version 535.129.03 
+
+-------------------------------------------------------------------
 Wed Oct 11 11:55:14 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - disabled build of nvidia-peermem module; it's no longer needed
