@@ -21,7 +21,8 @@ flavor=%1
 #export __JOBS=${JOBS} && \ 
 #export MAKEFLAGS="-j ${JOBS}"
 if [ "$flavor" == "azure" ]; then
-kver=$(make -j$(nproc) -sC /usr/src/${dirprefix}-azure-obj/$arch/$flavor kernelrelease)
+dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
+kver=$(make -j$(nproc) -sC /usr/src/${dir}/$arch/$flavor kernelrelease)
 else
 kver=$(make -j$(nproc) -sC /usr/src/${dirprefix}-obj/$arch/$flavor kernelrelease)
 fi

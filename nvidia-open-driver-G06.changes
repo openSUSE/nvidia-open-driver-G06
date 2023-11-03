@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Nov  3 14:22:28 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- finally fixed build of -azure kernel in %post 
+
+-------------------------------------------------------------------
 Fri Nov  3 13:00:36 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - fixed requires to firmware package, which has been renamed to
