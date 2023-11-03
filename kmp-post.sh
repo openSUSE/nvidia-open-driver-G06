@@ -1,5 +1,5 @@
 # switch back with SLE-15-SP6 GM
-%if 0%{?sle_version} >= 150600
+%if (0%{?sle_version} >= 150600 || 0%{?suse_version} >= 1550)
 dirprefix=linux
 %else
 dirprefix=linux-%{2}
