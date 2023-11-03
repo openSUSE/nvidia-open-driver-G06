@@ -1,4 +1,13 @@
 -------------------------------------------------------------------
+Fri Nov  3 13:00:36 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- fixed requires to firmware package, which has been renamed to
+  kernel-firmware-nvidia-gsp(x)-G06
+- during beta period of sle15-sp6 no longer try to require a "GA"
+  kernel-devel package; this will be reverted with GM (see also
+  bsc#1208209) 
+
+-------------------------------------------------------------------
 Wed Nov  1 19:46:55 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - Update to version 535.129.03 

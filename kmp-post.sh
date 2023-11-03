@@ -1,3 +1,9 @@
+# switch back with SLE-15-SP6 GM
+%if 0%{?sle_version} >= 150600
+dirprefix=linux
+%else
+dirprefix=linux-%{2}
+%endif
 %ifarch %ix86
 arch=i386
 %endif
@@ -15,18 +21,19 @@ flavor=%1
 #export __JOBS=${JOBS} && \ 
 #export MAKEFLAGS="-j ${JOBS}"
 if [ "$flavor" == "azure" ]; then
-kver=$(make -j$(nproc) -sC /usr/src/linux-%{2}-azure-obj/$arch/$flavor kernelrelease)
+kver=$(make -j$(nproc) -sC /usr/src/${dirprefix}-azure-obj/$arch/$flavor kernelrelease)
 else
-kver=$(make -j$(nproc) -sC /usr/src/linux-%{2}-obj/$arch/$flavor kernelrelease)
+kver=$(make -j$(nproc) -sC /usr/src/${dirprefix}-obj/$arch/$flavor kernelrelease)
 fi
 RES=0
 
 if [ "$flavor" == "azure" ]; then
-    export SYSSRC=/usr/src/linux-%{2}-azure
-    export SYSOUT=/usr/src/linux-%{2}-azure-obj/$arch/$flavor
+    export SYSSRC=/usr/src/${dirprefix}-azure
+    dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
+    export SYSOUT=/usr/src/${dir}/$arch/$flavor
 else
-    export SYSSRC=/usr/src/linux-%{2}
-    export SYSOUT=/usr/src/linux-%{2}-obj/$arch/$flavor
+    export SYSSRC=/usr/src/${dirprefix}
+    export SYSOUT=/usr/src/${dirprefix}-obj/$arch/$flavor
 fi
 
 pushd /usr/src/kernel-modules/nvidia-%{-v*}-$flavor
