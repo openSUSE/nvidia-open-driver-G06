@@ -56,7 +56,7 @@ BuildRequires:  kernel-syms
 BuildRequires:  perl-Bootloader
 BuildRequires:  zstd
 %ifnarch aarch64
-%if 0%{?sle_version} >= 120400 && !0%{?is_opensuse} 
+%if !0%{?is_opensuse} 
 BuildRequires:  kernel-syms-azure
 %endif
 %endif

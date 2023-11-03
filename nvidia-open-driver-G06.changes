@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Nov  3 19:51:58 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- cleanup; sle12 no longer supported 
+
+-------------------------------------------------------------------
 Fri Nov  3 14:22:28 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - finally fixed build of -azure kernel in %post 
