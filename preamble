@@ -1,12 +1,7 @@
 BuildRequires: kernel-syms
 BuildRequires: kmod
 PreReq: kernel-%1
-# switch back to "kernel-%1-devel = %2" with SLE-15-SP6 GM
-%if (0%{?suse_version} < 1550 &&  0%{?sle_version} < 150600)
-PreReq: kernel-%1-devel = %2 make gcc gcc-c++
-%else
 PreReq: kernel-%1-devel make gcc gcc-c++
-%endif
 Requires: kernel-firmware-nvidia-gspx-G06 = %{-v*}
 Requires: perl-Bootloader
 Requires: openssl

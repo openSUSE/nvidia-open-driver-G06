@@ -1,8 +1,9 @@
 # get rid of broken weak-updates symlinks created in some %post apparently;
 # either by kmp itself or by kernel package update
 for i in $(find /lib/modules/*/weak-updates -type l 2> /dev/null); do
-  test -e $(readlink -f $i) || rm $i
+  test -e $i || rm $i
 done
+dirprefix=linux
 %ifarch %ix86
 arch=i386
 %endif
@@ -19,14 +20,28 @@ flavor=%1
 #export JOBS=${CONCURRENCY_LEVEL} && \
 #export __JOBS=${JOBS} && \ 
 #export MAKEFLAGS="-j ${JOBS}"
-kver=$(make -j$(nproc) -sC /usr/src/linux-obj/$arch/$flavor kernelrelease)
+if [ "$flavor" == "azure" ]; then
+dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
+kver=$(make -j$(nproc) -sC /usr/src/${dir}/$arch/$flavor kernelrelease)
+else
+kver=$(make -j$(nproc) -sC /usr/src/${dirprefix}-obj/$arch/$flavor kernelrelease)
+fi
 RES=0
 
-export SYSSRC=/usr/src/linux
-export SYSOUT=/usr/src/linux-obj/$arch/$flavor
+if [ "$flavor" == "azure" ]; then
+    export SYSSRC=/usr/src/${dirprefix}-azure
+    dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
+    export SYSOUT=/usr/src/${dir}/$arch/$flavor
+else
+    export SYSSRC=/usr/src/${dirprefix}
+    export SYSOUT=/usr/src/${dirprefix}-obj/$arch/$flavor
+fi
 
 pushd /usr/src/kernel-modules/nvidia-%{-v*}-$flavor
 make -j$(nproc) modules || RES=1
+
+# remove still existing old kernel modules (boo#1174204)
+rm -f /lib/modules/$kver/updates/nvidia*.ko
 
 export INSTALL_MOD_DIR=updates
 make modules_install
@@ -115,17 +130,10 @@ for dev in $(ls -d /sys/bus/pci/devices/*); do
 done
 
 # groups are now dynamic
-%if 0%{?suse_version} >= 1550
-if [ -f /usr/lib/modprobe.d/50-nvidia-$flavor.conf ]; then
-%else
 if [ -f /etc/modprobe.d/50-nvidia-$flavor.conf ]; then
-%endif
   VIDEOGID=`getent group video | cut -d: -f3`
-%if 0%{?suse_version} >= 1550
-  sed -i "s/33/$VIDEOGID/" /usr/lib/modprobe.d/50-nvidia-$flavor.conf
-%else
   sed -i "s/33/$VIDEOGID/" /etc/modprobe.d/50-nvidia-$flavor.conf
-%endif
 fi
 
-exit $RES
+#needed to move this to specfile after running posttrans
+#exit $RES

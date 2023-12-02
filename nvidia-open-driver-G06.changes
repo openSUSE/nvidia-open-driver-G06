@@ -1,4 +1,15 @@
 -------------------------------------------------------------------
+Fri Dec  1 23:47:15 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
+
+- switch to build in %trigger script (kmp-trigger.sh) like for
+  Tumbleweed for kernel-default-devel
+- fix removing of broken weak-updates symlink in %trigger scripts
+- remove broken weak-updates symlinks by new %trigger script 
+  (kmp-trigger2.sh) for kernel-default
+- removed accidental generation of ksyms to Requires
+- use modprobe/dracut config dirs for sle15
+
+-------------------------------------------------------------------
 Thu Nov 23 03:59:15 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - Update to 545.29.06 
