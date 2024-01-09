@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Tue Jan  9 10:41:49 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- create /run/udev/static_node-tags/uaccess/nvidia${devid} symlinks
+  also during modprobing the nvidia module; this changes the issue
+  of not having access to /dev/nvidia${devid}, when gfxcard has
+  been replaced by a different gfx card after installing the driver
+
+-------------------------------------------------------------------
 Fri Dec  1 23:47:15 UTC 2023 - Stefan Dirsch <sndirsch@suse.com>
 
 - switch to build in %trigger script (kmp-trigger.sh) like for
