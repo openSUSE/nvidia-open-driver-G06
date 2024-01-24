@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Jan 24 13:56:00 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- kernel-6.7.patch
+  * fixes build against kernel 6.7 (boo#1219117) 
+
+-------------------------------------------------------------------
 Tue Jan  9 10:41:49 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
 
 - create /run/udev/static_node-tags/uaccess/nvidia${devid} symlinks
