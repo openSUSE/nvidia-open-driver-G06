@@ -1,4 +1,124 @@
 -------------------------------------------------------------------
+Mon Feb 26 12:09:01 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- fixed check for Tumbleweed 
+
+-------------------------------------------------------------------
+Mon Feb 26 11:52:53 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- fix exit value $RES in %post/%trigger scripts
+
+-------------------------------------------------------------------
+Mon Feb 26 09:20:16 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- move kernel modules build from %post to %trigger scripts on
+  Tumbleweed; don't move modules to packaged %ghost location on
+  Tumbleweed
+
+-------------------------------------------------------------------
+Mon Feb 26 02:17:10 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- added kernel-syms, kmod Buildrequires and Provides: %name to 
+  subpackages
+
+-------------------------------------------------------------------
+Sun Feb 25 10:09:42 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- kmp-post.sh: get rid of %suse_version check 
+
+-------------------------------------------------------------------
+Sun Feb 25 09:47:20 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- improved summaries and descriptions 
+
+-------------------------------------------------------------------
+Sun Feb 25 09:31:21 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- get rid of kmp-preun-$flavor scripts; use one kmp-preun.sh for
+  all; just set the $flavor outside in specfile
+
+-------------------------------------------------------------------
+Sun Feb 25 09:25:52 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- get rid of kmp-post-$flavor scripts; use one kmp-post.sh for
+  all; just set the $flavor outside in specfile
+
+-------------------------------------------------------------------
+Sun Feb 25 09:08:03 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- avoid to remove modules of other flavor in %postun 
+
+-------------------------------------------------------------------
+Sat Feb 24 21:07:58 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- Update to 550.54.14
+  * Added vGPU Host and vGPU Guest support. For vGPU Host, please
+    refer to the README.vgpu packaged in the vGPU Host Package for
+    more details.
+- supersedes the following patches:
+  * 0001-Don-t-override-INSTALL_MOD_DIR.patch
+  * kernel-6.7.patch
+
+-------------------------------------------------------------------
+Sat Feb 24 20:39:15 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- kmp-postun.sh
+  * get rid of broken weak-updates symlinks created in %post / %trigger
+    either by kmp itself or by kernel package update
+
+-------------------------------------------------------------------
+Sat Feb 24 19:43:12 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- zero fake kernel modules to prevent generation of ksyms in package 
+
+-------------------------------------------------------------------
+Fri Feb 23 13:43:14 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- rename subpackages from $flavor to kmp-$flavor, since apparently
+  this is needed by weak-modules2 script for generating weak-updates 
+  symlinks
+- readded modules as ghosts to filelist; assumingly needed by
+  weak-updates2 script
+- save kernel version already during build; move just built modules
+  in %post to this location, so weak-modules2 script can easily find
+  these packaged in kmp as %ghost and create the required weak-updates
+  symlinks; run weak-modules2 script during %post to create these
+- a kernel update already creates required symlinks; hooray!
+
+-------------------------------------------------------------------
+Thu Feb 22 18:22:36 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- 64kb kernel on aarch64: build in %post, not in %triggerin
+
+-------------------------------------------------------------------
+Thu Feb 22 18:15:15 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- -azure subpackage needs to trigger on kernel-azure-devel, since
+  modules need to be recompiled 
+
+-------------------------------------------------------------------
+Thu Feb 22 15:36:52 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- hopefully fixed build for factory/TW
+- added -64kb subpackage for aarch64 
+
+-------------------------------------------------------------------
+Thu Feb 22 15:09:24 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- hopefully fix -azure deps on openSUSE ... 
+
+-------------------------------------------------------------------
+Thu Feb 22 14:40:50 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- radical changes according to bsc#1220077
+- still missing
+  * -64kb subpackage for aarch64
+  * generation of weak-updates
+  * generation of initrds 
+  * testing in general
+  * cleanup
+
+-------------------------------------------------------------------
 Wed Jan 24 13:56:00 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
 
 - kernel-6.7.patch

@@ -1,9 +1,9 @@
-# switch back with SLE-15-SP6 GM
-%if (0%{?sle_version} >= 150600 || 0%{?suse_version} >= 1550)
+# get rid of broken weak-updates symlinks created in some %post apparently;
+# either by kmp itself or by kernel package update
+for i in $(find /lib/modules/*/weak-updates -type l 2> /dev/null); do
+  test -e $i || rm $i
+done
 dirprefix=linux
-%else
-dirprefix=linux-%{2}
-%endif
 %ifarch %ix86
 arch=i386
 %endif
@@ -15,7 +15,6 @@ arch=aarch64
 # -Wall is upstream default
 export CFLAGS="-Wall -mno-outline-atomics"
 %endif
-flavor=%1
 #export CONCURRENCY_LEVEL=nproc && \ 
 #export JOBS=${CONCURRENCY_LEVEL} && \
 #export __JOBS=${JOBS} && \ 
@@ -37,7 +36,7 @@ else
     export SYSOUT=/usr/src/${dirprefix}-obj/$arch/$flavor
 fi
 
-pushd /usr/src/kernel-modules/nvidia-%{-v*}-$flavor
+pushd /usr/src/kernel-modules/nvidia-%{version}-$flavor
 make -j$(nproc) modules || RES=1
 
 # remove still existing old kernel modules (boo#1174204)
@@ -45,12 +44,27 @@ rm -f /lib/modules/$kver/updates/nvidia*.ko
 
 export INSTALL_MOD_DIR=updates
 make modules_install
+
+tw="false"
+cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
+
+# move kernel modules where they belong and can be found by weak-modules2 script
+kver_build=$(cat kernel_version)
+if [ "$kver" != "$kver_build" -a "$flavor" != "azure" -a "$tw" != "true" ]; then
+  mkdir -p %{kernel_module_directory}/$kver_build/updates
+  mv %{kernel_module_directory}/$kver/updates/nvidia*.ko \
+     %{kernel_module_directory}/$kver_build/updates
+fi
+
+# create initrd
+/usr/lib/module-init-tools/weak-modules2 --add-kernel $kver
+
 popd
 
 depmod $kver
 
 # cleanup (boo#1200310)
-pushd /usr/src/kernel-modules/nvidia-%{-v*}-$flavor || true
+pushd /usr/src/kernel-modules/nvidia-%{version}-$flavor || true
 cp -a Makefile{,.tmp} || true
 make clean || true
 # NVIDIA's "make clean" not being perfect (boo#1201937)
@@ -64,7 +78,7 @@ if [ -x /usr/bin/mokutil ]; then
   if [ $? -eq 0 ]; then
     privkey=$(mktemp /tmp/MOK.priv.XXXXXX)
     pubkeydir=/var/lib/nvidia-pubkeys
-    pubkey=$pubkeydir/MOK-%{name}-%{-v*}-%{-r*}-$flavor.der
+    pubkey=$pubkeydir/MOK-%{name}-%{version}-$flavor.der
 
     # make sure creation of pubkey doesn't fail later
     test -d pubkeydir || mkdir -p $pubkeydir
@@ -85,7 +99,7 @@ if [ -x /usr/bin/mokutil ]; then
     openssl req -new -x509 -newkey rsa:2048 \
                 -keyout $privkey \
                 -outform DER -out $pubkey -days 1000 \
-                -subj "/CN=Local build for %{name} %{-v*} on $(date +"%Y-%m-%d")/" \
+                -subj "/CN=Local build for %{name} %{version} on $(date +"%Y-%m-%d")/" \
                 -addext "extendedKeyUsage=codeSigning" \
                 -nodes
 
@@ -130,18 +144,10 @@ for dev in $(ls -d /sys/bus/pci/devices/*); do
 done
 
 # groups are now dynamic
-%if 0%{?suse_version} >= 1550
-if [ -f /usr/lib/modprobe.d/50-nvidia-$flavor.conf ]; then
-%else
-if [ -f /etc/modprobe.d/50-nvidia-$flavor.conf ]; then
-%endif
+if [ -f %{_sysconfdir}/modprobe.d/50-nvidia-$flavor.conf ]; then
   VIDEOGID=`getent group video | cut -d: -f3`
-%if 0%{?suse_version} >= 1550
-  sed -i "s/33/$VIDEOGID/" /usr/lib/modprobe.d/50-nvidia-$flavor.conf
-%else
-  sed -i "s/33/$VIDEOGID/" /etc/modprobe.d/50-nvidia-$flavor.conf
-%endif
+  sed -i "s/33/$VIDEOGID/" %{_sysconfdir}/modprobe.d/50-nvidia-$flavor.conf
 fi
 
-#needed to move this to specfile after running weak-modules2 (boo#1145316)
+#needed to move this to specfile after running posttrans
 #exit $RES
