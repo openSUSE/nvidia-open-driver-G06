@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Tue Mar 19 21:11:01 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- Update to 550.67
+- rename pci_ids-unsupported* to pci_ids-supported* files
+
+-------------------------------------------------------------------
 Mon Feb 26 12:09:01 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
 
 - fixed check for Tumbleweed 
