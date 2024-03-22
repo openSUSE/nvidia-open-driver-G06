@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Mar 22 15:47:49 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- kmp-post.sh: sign the modules in the correct location (boo#1221776)
+
+-------------------------------------------------------------------
 Tue Mar 19 21:11:01 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
 
 - Update to 550.67
