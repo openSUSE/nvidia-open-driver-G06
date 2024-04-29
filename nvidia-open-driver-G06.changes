@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Mon Apr 29 09:17:35 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
+
+- Update to 550.78
+  * addresses boo#1223454 
+
+-------------------------------------------------------------------
 Mon Apr 29 01:11:01 UTC 2024 - Stefan Dirsch <sndirsch@suse.com>
 
 - kmp-post.sh
