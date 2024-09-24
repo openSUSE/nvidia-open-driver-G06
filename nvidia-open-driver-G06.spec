@@ -34,7 +34,7 @@
 
 %define compress_modules xz
 Name:           nvidia-open-driver-G06
-Version:        550.107.02
+Version:        550.120
 Release:        0
 Summary:        NVIDIA open kernel module driver for Turing GPUs and later
 License:        GPL-2.0 and MIT
@@ -53,6 +53,11 @@ Source14:       create-supplements.sh
 Source15:       supplements-azure.inc
 Source20:       supplements-64kb.inc
 Patch0:         persistent-nvidia-id-string.patch
+%ifarch aarch64
+%if 0%{?suse_version} >= 1600
+Patch2:         aarch64-TW-buildfix.patch
+%endif
+%endif
 BuildRequires:  %{kernel_module_package_buildreqs}
 BuildRequires:  gcc-c++
 BuildRequires:  kernel-source
@@ -138,8 +143,7 @@ for Turing GPUs and later. This is for 64kb kernel flavor.
 %endif
 
 %prep
-%setup -q -n open-gpu-kernel-modules-%{version}
-%patch -P 0 -p1
+%autosetup -p1 -n open-gpu-kernel-modules-%{version}
 set -- *
 mkdir source
 mv "$@" source/
