@@ -125,37 +125,10 @@ if [ -x /usr/bin/mokutil ]; then
   fi
 fi
 
-# Create symlinks for udev so these devices will get user ACLs by logind later (bnc#1000625)
-mkdir -p /run/udev/static_node-tags/uaccess
-mkdir -p /usr/lib/tmpfiles.d
-ln -snf /dev/nvidiactl /run/udev/static_node-tags/uaccess/nvidiactl 
-ln -snf /dev/nvidia-uvm /run/udev/static_node-tags/uaccess/nvidia-uvm
-ln -snf /dev/nvidia-uvm-tools /run/udev/static_node-tags/uaccess/nvidia-uvm-tools
-ln -snf /dev/nvidia-modeset /run/udev/static_node-tags/uaccess/nvidia-modeset
-cat >  /usr/lib/tmpfiles.d/nvidia-logind-acl-trick-G06.conf << EOF
-L /run/udev/static_node-tags/uaccess/nvidiactl - - - - /dev/nvidiactl
-L /run/udev/static_node-tags/uaccess/nvidia-uvm - - - - /dev/nvidia-uvm
-L /run/udev/static_node-tags/uaccess/nvidia-uvm-tools - - - - /dev/nvidia-uvm-tools
-L /run/udev/static_node-tags/uaccess/nvidia-modeset - - - - /dev/nvidia-modeset
-EOF
-devid=-1
-for dev in $(ls -d /sys/bus/pci/devices/*); do 
-  vendorid=$(cat $dev/vendor)
-  if [ "$vendorid" == "0x10de" ]; then 
-    class=$(cat $dev/class)
-    classid=${class%%00}
-    if [ "$classid" == "0x0300" -o "$classid" == "0x0302" ]; then 
-      devid=$((devid+1))
-      ln -snf /dev/nvidia${devid} /run/udev/static_node-tags/uaccess/nvidia${devid}
-      echo "L /run/udev/static_node-tags/uaccess/nvidia${devid} - - - - /dev/nvidia${devid}" >> /usr/lib/tmpfiles.d/nvidia-logind-acl-trick-G06.conf
-    fi
-  fi
-done
-
 # groups are now dynamic
-if [ -f %{_sysconfdir}/modprobe.d/50-nvidia-$flavor.conf ]; then
+if [ -f %{_sysconfdir}/modprobe.d/50-nvidia.conf ]; then
   VIDEOGID=`getent group video | cut -d: -f3`
-  sed -i "s/33/$VIDEOGID/" %{_sysconfdir}/modprobe.d/50-nvidia-$flavor.conf
+  sed -i "s/33/$VIDEOGID/" %{_sysconfdir}/modprobe.d/50-nvidia.conf
 fi
 
 #needed to move this to specfile after running posttrans
