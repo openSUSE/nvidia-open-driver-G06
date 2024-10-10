@@ -44,7 +44,6 @@ Source0:        open-gpu-kernel-modules-%{version}.tar.gz
 Source2:        pci_ids-%{version}
 Source4:        kmp-post.sh
 Source5:        kmp-postun.sh
-Source6:        modprobe.nvidia.install
 Source8:        json-to-pci-id-list.py
 Source9:        kmp-preun.sh
 Source11:       nvidia-open-driver-G06.rpmlintrc
@@ -87,6 +86,7 @@ PreReq: kernel-default-devel make gcc gcc-c++
 Requires: kernel-firmware-nvidia-gspx-G06 = %{version}
 Requires: openssl
 Requires: mokutil
+Requires: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-default and %name)
@@ -109,6 +109,7 @@ PreReq: kernel-azure-devel make gcc gcc-c++
 Requires: kernel-firmware-nvidia-gspx-G06 = %{version}
 Requires: openssl
 Requires: mokutil
+Requires: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-azure and %name)
@@ -131,6 +132,7 @@ PreReq: kernel-64kb-devel make gcc gcc-c++
 Requires: kernel-firmware-nvidia-gspx-G06 = %{version}
 Requires: openssl
 Requires: mokutil
+Requires: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-64kb and %name)
@@ -209,26 +211,6 @@ for flavor in %kernel_flavors; do
         done
 done
 
-MODPROBE_DIR=%{buildroot}%{_sysconfdir}/modprobe.d
-
-mkdir -p $MODPROBE_DIR
-for flavor in %kernel_flavors; do
-    cat > $MODPROBE_DIR/50-nvidia-$flavor.conf << EOF
-blacklist nouveau
-options nvidia NVreg_DeviceFileUID=0 NVreg_DeviceFileGID=33 NVreg_DeviceFileMode=0660 NVreg_PreserveVideoMemoryAllocations=1
-options nvidia-drm modeset=1 fbdev=1
-EOF
-    echo -n "install nvidia " >> $MODPROBE_DIR/50-nvidia-$flavor.conf
-    tail -n +3 %_sourcedir/modprobe.nvidia.install | awk '{ printf "%s ", $0 }' >> $MODPROBE_DIR/50-nvidia-$flavor.conf
-# otherwise nvidia-uvm is missing in initrd and won't get loaded when nvidia
-# module is loaded in initrd; so better let's load all the nvidia modules
-# later ...
-  mkdir -p %{buildroot}/etc/dracut.conf.d
-  cat  > %{buildroot}/etc/dracut.conf.d/60-nvidia-$flavor.conf << EOF
-omit_drivers+=" nvidia nvidia-drm nvidia-modeset nvidia-uvm "
-EOF
-done
-
 %files kmp-default
 %ghost %dir %{kernel_module_directory}/*-default/updates
 %ghost %{kernel_module_directory}/*-default/updates/nvidia*.ko
@@ -236,10 +218,6 @@ done
 %ghost %attr(644,root,root) /var/lib/nvidia-pubkeys/MOK-%{name}-%{version}.der
 %dir /usr/src/kernel-modules
 /usr/src/kernel-modules/nvidia-%{version}-default/
-%dir %{_sysconfdir}/modprobe.d
-%config %{_sysconfdir}/modprobe.d/50-nvidia-default.conf
-%dir /etc/dracut.conf.d
-/etc/dracut.conf.d/60-nvidia-default.conf
 
 %post kmp-default
 RES=0
@@ -283,10 +261,6 @@ flavor=default
 %ghost %attr(644,root,root) /var/lib/nvidia-pubkeys/MOK-%{name}-%{version}.der
 %dir /usr/src/kernel-modules
 /usr/src/kernel-modules/nvidia-%{version}-azure/
-%dir %{_sysconfdir}/modprobe.d
-%config %{_sysconfdir}/modprobe.d/50-nvidia-azure.conf
-%dir /etc/dracut.conf.d
-/etc/dracut.conf.d/60-nvidia-azure.conf
 
 %triggerin kmp-azure -- kernel-azure-devel
 #kmp-post.sh
@@ -315,10 +289,6 @@ flavor=azure
 %ghost %attr(644,root,root) /var/lib/nvidia-pubkeys/MOK-%{name}-%{version}.der
 %dir /usr/src/kernel-modules
 /usr/src/kernel-modules/nvidia-%{version}-64kb/
-%dir %{_sysconfdir}/modprobe.d
-%config %{_sysconfdir}/modprobe.d/50-nvidia-64kb.conf
-%dir /etc/dracut.conf.d
-/etc/dracut.conf.d/60-nvidia-64kb.conf
 
 %post kmp-64kb
 RES=0
