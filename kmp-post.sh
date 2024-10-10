@@ -125,11 +125,5 @@ if [ -x /usr/bin/mokutil ]; then
   fi
 fi
 
-# groups are now dynamic
-if [ -f %{_sysconfdir}/modprobe.d/50-nvidia.conf ]; then
-  VIDEOGID=`getent group video | cut -d: -f3`
-  sed -i "s/33/$VIDEOGID/" %{_sysconfdir}/modprobe.d/50-nvidia.conf
-fi
-
 #needed to move this to specfile after running posttrans
 #exit $RES
