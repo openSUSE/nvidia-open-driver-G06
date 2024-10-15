@@ -83,10 +83,12 @@ BuildRequires: kernel-syms
 BuildRequires: kmod
 PreReq: kernel-default
 PreReq: kernel-default-devel make gcc gcc-c++
-Requires: kernel-firmware-nvidia-gspx-G06 = %{version}
 Requires: openssl
 Requires: mokutil
-Requires: nvidia-common-G06 = %{version}
+# Firmware files, modprobe configuration, etc. are actually required at run
+# time, but they are not required for manipulating the modules once built (ex.
+# signing after building):
+Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-default and %name)
@@ -106,10 +108,12 @@ BuildRequires: kernel-syms
 BuildRequires: kmod
 PreReq: kernel-azure
 PreReq: kernel-azure-devel make gcc gcc-c++
-Requires: kernel-firmware-nvidia-gspx-G06 = %{version}
 Requires: openssl
 Requires: mokutil
-Requires: nvidia-common-G06 = %{version}
+# Firmware files, modprobe configuration, etc. are actually required at run
+# time, but they are not required for manipulating the modules once built (ex.
+# signing after building):
+Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-azure and %name)
@@ -129,10 +133,12 @@ BuildRequires: kernel-syms
 BuildRequires: kmod
 PreReq: kernel-64kb
 PreReq: kernel-64kb-devel make gcc gcc-c++
-Requires: kernel-firmware-nvidia-gspx-G06 = %{version}
 Requires: openssl
 Requires: mokutil
-Requires: nvidia-common-G06 = %{version}
+# Firmware files, modprobe configuration, etc. are actually required at run
+# time, but they are not required for manipulating the modules once built (ex.
+# signing after building):
+Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-64kb and %name)
