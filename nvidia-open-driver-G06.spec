@@ -47,10 +47,8 @@ Source5:        kmp-postun.sh
 Source8:        json-to-pci-id-list.py
 Source9:        kmp-preun.sh
 Source11:       nvidia-open-driver-G06.rpmlintrc
-Source13:       supplements.inc
-Source14:       create-supplements.sh
-Source15:       supplements-azure.inc
-Source20:       supplements-64kb.inc
+Source12:       supported-gpus-%{version}.json
+Source13:       supported-gpus.json.LICENSE
 Patch0:         persistent-nvidia-id-string.patch
 %ifarch aarch64
 %if 0%{?suse_version} >= 1600
@@ -92,7 +90,8 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-default and %name)
-%include %{S:13}
+%{expand:%(flavor=default; for id in $(python3 %{S:8} --kernelopen %{S:12} | cut -d " " -f 1|sed 's/0x//g'); do \
+        echo "Supplements:    modalias(kernel-$flavor:pci:v000010DEd0000${id}sv*sd*bc03sc0[02]i00*)"; done) }
 
 %description kmp-default
 This package provides the open-source NVIDIA kernel module driver
@@ -117,7 +116,8 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-azure and %name)
-%include %{S:15}
+%{expand:%(flavor=azure; for id in $(python3 %{S:8} --kernelopen %{S:12} | cut -d " " -f 1|sed 's/0x//g'); do \
+        echo "Supplements:    modalias(kernel-$flavor:pci:v000010DEd0000${id}sv*sd*bc03sc0[02]i00*)"; done) }
 
 %description kmp-azure
 This package provides the open-source NVIDIA kernel module driver
@@ -142,7 +142,8 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-64kb and %name)
-%include %{S:20}
+%{expand:%(flavor=64kb; for id in $(python3 %{S:8} --kernelopen %{S:12} | cut -d " " -f 1|sed 's/0x//g'); do \
+        echo "Supplements:    modalias(kernel-$flavor:pci:v000010DEd0000${id}sv*sd*bc03sc0[02]i00*)"; done) }
 
 %description kmp-64kb
 This package provides the open-source NVIDIA kernel module driver
