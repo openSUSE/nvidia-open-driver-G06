@@ -24,10 +24,6 @@ parser.add_argument("INPUT_JSON",
         help="The JSON file to be parsed",
         type=argparse.FileType('r')
         )
-parser.add_argument("OUTPUT_PCI_ID_LIST",
-        help="The output file to save to",
-        type=argparse.FileType('w')
-        )
 parser.add_argument("--skiplegacy", help="Skip GPUs that are in a legacy branch",
                     action="store_true")
 parser.add_argument("--kernelopen", help="Only select GPUs that are supported by\
@@ -50,4 +46,4 @@ for chip in json["chips"]:
 # write to file
 for devid, name in sorted(pci_id_list.items(), key=lambda i: i[0]):
     # there are no duplicates since a dictionary's key is unique
-    args.OUTPUT_PCI_ID_LIST.write("%s %s\n" % (devid, name))
+    print(f"{devid} {name}")
