@@ -90,7 +90,7 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-default and %name)
-%{expand:%(python3 %{S:8} --flavor default --open %{S:12}}
+%{expand:%(python3 %{S:8} --flavor default --open %{S:12})}
 
 %description kmp-default
 This package provides the open-source NVIDIA kernel module driver
@@ -115,7 +115,7 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-azure and %name)
-%{expand:%(python3 %{S:8} --flavor azure --open %{S:12}}
+%{expand:%(python3 %{S:8} --flavor azure --open %{S:12})}
 
 %description kmp-azure
 This package provides the open-source NVIDIA kernel module driver
@@ -140,7 +140,7 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-64kb and %name)
-%{expand:%(python3 %{S:8} --flavor 64kb --open %{S:12}}
+%{expand:%(python3 %{S:8} --flavor 64kb --open %{S:12})}
 
 %description kmp-64kb
 This package provides the open-source NVIDIA kernel module driver
