@@ -41,7 +41,6 @@ License:        GPL-2.0 and MIT
 Group:          System/Kernel
 URL:            https://github.com/NVIDIA/open-gpu-kernel-modules/
 Source0:        open-gpu-kernel-modules-%{version}.tar.gz
-Source2:        pci_ids-%{version}
 Source4:        kmp-post.sh
 Source5:        kmp-postun.sh
 Source8:        json-to-pci-id-list.py
@@ -62,6 +61,7 @@ BuildRequires:  kernel-syms
 BuildRequires:  kernel-devel
 BuildRequires:  kernel-default-devel
 BuildRequires:  kmod
+BuildRequires:  python3
 BuildRequires:  zstd
 %ifnarch aarch64
 %if !0%{?is_opensuse} 
@@ -90,8 +90,7 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-default and %name)
-%{expand:%(flavor=default; for id in $(python3 %{S:8} --kernelopen %{S:12} | cut -d " " -f 1|sed 's/0x//g'); do \
-        echo "Supplements:    modalias(kernel-$flavor:pci:v000010DEd0000${id}sv*sd*bc03sc0[02]i00*)"; done) }
+%{expand:%(python3 %{S:8} --flavor default --open %{S:12}}
 
 %description kmp-default
 This package provides the open-source NVIDIA kernel module driver
@@ -116,8 +115,7 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-azure and %name)
-%{expand:%(flavor=azure; for id in $(python3 %{S:8} --kernelopen %{S:12} | cut -d " " -f 1|sed 's/0x//g'); do \
-        echo "Supplements:    modalias(kernel-$flavor:pci:v000010DEd0000${id}sv*sd*bc03sc0[02]i00*)"; done) }
+%{expand:%(python3 %{S:8} --flavor azure --open %{S:12}}
 
 %description kmp-azure
 This package provides the open-source NVIDIA kernel module driver
@@ -142,8 +140,7 @@ Recommends: nvidia-common-G06 = %{version}
 Conflicts: nvidia-gfxG06-kmp nvidia-driver-G06-kmp nvidia-open-driver-G06-signed-kmp nvidia-gfxG05-kmp
 Provides: %name
 Supplements: (kernel-64kb and %name)
-%{expand:%(flavor=64kb; for id in $(python3 %{S:8} --kernelopen %{S:12} | cut -d " " -f 1|sed 's/0x//g'); do \
-        echo "Supplements:    modalias(kernel-$flavor:pci:v000010DEd0000${id}sv*sd*bc03sc0[02]i00*)"; done) }
+%{expand:%(python3 %{S:8} --flavor 64kb --open %{S:12}}
 
 %description kmp-64kb
 This package provides the open-source NVIDIA kernel module driver
