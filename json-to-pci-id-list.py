@@ -32,4 +32,4 @@ for product in gpus_raw["chips"]:
         devids.append(gpu)
 
 for gpu in devids:
-    print(f"Supplements modalias(kernel-" + args.flavor + ":pci:v000010DEd0000" + gpu + "sv*sd*bc03sc0[02]i00*)")
+    print(f"Supplements: modalias(kernel-" + args.flavor + ":pci:v000010DEd0000" + gpu + "sv*sd*bc03sc0[02]i00*)")
