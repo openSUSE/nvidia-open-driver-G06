@@ -34,7 +34,7 @@
 
 %define compress_modules xz
 Name:           nvidia-open-driver-G06
-Version:        565.57.01
+Version:        565.77
 Release:        0
 Summary:        NVIDIA open kernel module driver for Turing GPUs and later
 License:        GPL-2.0 and MIT
