@@ -49,6 +49,7 @@ Source11:       nvidia-open-driver-G06.rpmlintrc
 Source12:       supported-gpus-%{version}.json
 Source13:       supported-gpus.json.LICENSE
 Patch0:         persistent-nvidia-id-string.patch
+Patch1:         565.77.patch
 %ifarch aarch64
 %if 0%{?suse_version} >= 1600
 Patch2:         aarch64-TW-buildfix.patch
