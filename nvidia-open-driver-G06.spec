@@ -174,7 +174,7 @@ for flavor in %kernel_flavors; do
 	  export SYSSRC=/usr/src/linux
 	fi
 	export SYSOUT=/usr/src/linux-obj/%_target_cpu/$flavor
-        make %{?_smp_mflags} %{?linux_make_arch} modules
+        make %{?_smp_mflags} modules
         popd
 done
 
@@ -191,7 +191,7 @@ for flavor in %kernel_flavors; do
 	  export SYSSRC=/usr/src/linux
 	fi
 	export SYSOUT=/usr/src/linux-obj/%_target_cpu/$flavor
-        make %{?linux_make_arch} modules_install
+        make modules_install
 	popd
 %ifarch x86_64
 	arch=x86_64
