@@ -34,13 +34,13 @@
 
 %define compress_modules xz
 Name:           nvidia-open-driver-G06
-Version:        565.77
+Version:        570.86.16
 Release:        0
 Summary:        NVIDIA open kernel module driver for Turing GPUs and later
 License:        GPL-2.0 and MIT
 Group:          System/Kernel
 URL:            https://github.com/NVIDIA/open-gpu-kernel-modules/
-Source0:        open-gpu-kernel-modules-%{version}.tar.gz
+Source0:        NVIDIA-kernel-module-source-%{version}.tar.xz
 Source4:        kmp-post.sh
 Source5:        kmp-postun.sh
 Source8:        json-to-pci-id-list.py
@@ -144,7 +144,7 @@ for Turing GPUs and later. This is for 64kb kernel flavor.
 %endif
 
 %prep
-%autosetup -p1 -n open-gpu-kernel-modules-%{version}
+%autosetup -p1 -n NVIDIA-kernel-module-source-%{version}
 set -- *
 mkdir source
 mv "$@" source/
