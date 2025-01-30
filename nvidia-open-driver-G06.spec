@@ -40,7 +40,7 @@ Summary:        NVIDIA open kernel module driver for Turing GPUs and later
 License:        GPL-2.0 and MIT
 Group:          System/Kernel
 URL:            https://github.com/NVIDIA/open-gpu-kernel-modules/
-Source0:        NVIDIA-kernel-module-source-%{version}.tar.xz
+Source0:        open-gpu-kernel-modules-%{version}.tar.gz
 Source4:        kmp-post.sh
 Source5:        kmp-postun.sh
 Source8:        json-to-pci-id-list.py
