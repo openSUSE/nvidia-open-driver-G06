@@ -144,7 +144,7 @@ for Turing GPUs and later. This is for 64kb kernel flavor.
 %endif
 
 %prep
-%autosetup -p1 -n NVIDIA-kernel-module-source-%{version}
+%autosetup -p1 -n open-gpu-kernel-modules-%-%{version}
 set -- *
 mkdir source
 mv "$@" source/
