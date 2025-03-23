@@ -19,7 +19,7 @@ export CFLAGS="-Wall -mno-outline-atomics"
 #export JOBS=${CONCURRENCY_LEVEL} && \
 #export __JOBS=${JOBS} && \ 
 #export MAKEFLAGS="-j ${JOBS}"
-if [ "$flavor" == "azure" ]; then
+if [ "$flavor" = "azure" ]; then
 dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
 kver=$(make -j$(nproc) -sC /usr/src/${dir}/$arch/$flavor kernelrelease)
 else
@@ -30,7 +30,7 @@ RES=0
 # mold is not supported (boo#1223344)
 export LD=ld.bfd
 
-if [ "$flavor" == "azure" ]; then
+if [ "$flavor" = "azure" ]; then
     export SYSSRC=/usr/src/${dirprefix}-azure
     dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
     export SYSOUT=/usr/src/${dir}/$arch/$flavor

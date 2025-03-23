@@ -194,7 +194,7 @@ for flavor in %kernel_flavors; do
 %ifarch aarch64
 	arch=aarch64
 %endif
-        if [ "$flavor" == "azure" ]; then
+        if [ "$flavor" = "azure" ]; then
           dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
           kver_build=$(make -j$(nproc) -sC /usr/src/${dir}/${arch}/$flavor kernelrelease)
         else
@@ -222,7 +222,7 @@ done
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "false" ]; then
+if [ "$tw" = "false" ]; then
 #kmp-post.sh
 flavor=default
 %include %{S:4}
@@ -233,7 +233,7 @@ exit $RES
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "true" ]; then
+if [ "$tw" = "true" ]; then
 #kmp-post.sh
 flavor=default
 %include %{S:4}
@@ -293,7 +293,7 @@ flavor=azure
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "false" ]; then
+if [ "$tw" = "false" ]; then
 #kmp-post.sh
 flavor=64kb
 %include %{S:4}
@@ -304,7 +304,7 @@ exit $RES
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "true" ]; then
+if [ "$tw" = "true" ]; then
 #kmp-post.sh
 flavor=64kb
 %include %{S:4}
