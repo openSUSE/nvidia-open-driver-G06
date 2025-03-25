@@ -28,11 +28,15 @@ for product in gpus_raw["chips"]:
     gpu_id = product["devid"].lower().replace("0x", "")  # Normalize to lowercase hex
     
     if args.closed:
-        # Include GPUs **not** having "kernelopen" in "features"
+        # Exclude GPUs that have "legacybranch" in their keys
+        if "legacybranch" in product:
+            continue
+        # Exclude GPUs that have "kernelopen" in their features
         if "kernelopen" in product.get("features", []):
             continue
+
     elif args.open:
-        # Include GPUs **only** having "kernelopen" in "features"
+        # Include only GPUs that have "kernelopen" in their features
         if "kernelopen" not in product.get("features", []):
             continue
 
@@ -41,3 +45,4 @@ for product in gpus_raw["chips"]:
 # Generate and print the output
 for gpu in sorted(devids):  # Sort to ensure consistent output order
     print(f"Supplements: modalias(kernel-{args.flavor}:pci:v000010DEd0000{gpu}sv*sd*bc03sc0[02]i00*)")
+
