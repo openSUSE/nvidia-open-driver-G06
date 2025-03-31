@@ -17,8 +17,11 @@
 
 %define kernel_flavors default
 %ifnarch aarch64
-%if !0%{?is_opensuse}
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 %define kernel_flavors azure default
+%else
+%define kernel_flavors default
 %endif
 %else
 %define kernel_flavors 64kb default
@@ -59,7 +62,8 @@ BuildRequires:  kmod
 BuildRequires:  python3
 BuildRequires:  zstd
 %ifnarch aarch64
-%if !0%{?is_opensuse} 
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 BuildRequires:  kernel-azure-devel
 BuildRequires:  kernel-syms-azure
 %endif
@@ -93,7 +97,8 @@ for Turing GPUs and later. This is for default kernel flavor.
 
 %ifnarch aarch64
 
-%if !0%{?is_opensuse}
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 
 %package kmp-azure
 Summary:        NVIDIA open kernel module driver for Turing GPUs and later (azure kernel flavor)
@@ -252,7 +257,8 @@ flavor=default
 
 %ifnarch aarch64
 
-%if !0%{?is_opensuse}
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 
 %files kmp-azure
 %exclude %{kernel_module_directory}/*-azure/updates/
