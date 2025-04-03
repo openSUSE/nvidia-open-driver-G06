@@ -17,8 +17,11 @@
 
 %define kernel_flavors default
 %ifnarch aarch64
-%if !0%{?is_opensuse}
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 %define kernel_flavors azure default
+%else
+%define kernel_flavors default
 %endif
 %else
 %define kernel_flavors 64kb default
@@ -34,7 +37,7 @@
 
 %define compress_modules xz
 Name:           nvidia-open-driver-G06
-Version:        570.86.16
+Version:        570.133.07
 Release:        0
 Summary:        NVIDIA open kernel module driver for Turing GPUs and later
 License:        GPL-2.0 and MIT
@@ -59,7 +62,8 @@ BuildRequires:  kmod
 BuildRequires:  python3
 BuildRequires:  zstd
 %ifnarch aarch64
-%if !0%{?is_opensuse} 
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 BuildRequires:  kernel-azure-devel
 BuildRequires:  kernel-syms-azure
 %endif
@@ -93,7 +97,8 @@ for Turing GPUs and later. This is for default kernel flavor.
 
 %ifnarch aarch64
 
-%if !0%{?is_opensuse}
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 
 %package kmp-azure
 Summary:        NVIDIA open kernel module driver for Turing GPUs and later (azure kernel flavor)
@@ -194,7 +199,7 @@ for flavor in %kernel_flavors; do
 %ifarch aarch64
 	arch=aarch64
 %endif
-        if [ "$flavor" == "azure" ]; then
+        if [ "$flavor" = "azure" ]; then
           dir=$(pushd /usr/src &> /dev/null; ls -d linux-*-azure-obj|sort -n|tail -n 1; popd &> /dev/null)
           kver_build=$(make -j$(nproc) -sC /usr/src/${dir}/${arch}/$flavor kernelrelease)
         else
@@ -222,7 +227,7 @@ done
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "false" ]; then
+if [ "$tw" = "false" ]; then
 #kmp-post.sh
 flavor=default
 %include %{S:4}
@@ -233,7 +238,7 @@ exit $RES
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "true" ]; then
+if [ "$tw" = "true" ]; then
 #kmp-post.sh
 flavor=default
 %include %{S:4}
@@ -252,7 +257,8 @@ flavor=default
 
 %ifnarch aarch64
 
-%if !0%{?is_opensuse}
+# limit build of -azure flavor to SP6
+%if (!0%{?is_opensuse} && (0%{?sle_version} >= 150600 && 0%{?sle_version} < 150700))
 
 %files kmp-azure
 %exclude %{kernel_module_directory}/*-azure/updates/
@@ -293,7 +299,7 @@ flavor=azure
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "false" ]; then
+if [ "$tw" = "false" ]; then
 #kmp-post.sh
 flavor=64kb
 %include %{S:4}
@@ -304,7 +310,7 @@ exit $RES
 RES=0
 tw="false"
 cat /etc/os-release | grep ^NAME | grep -q Tumbleweed && tw=true
-if [ "$tw" == "true" ]; then
+if [ "$tw" = "true" ]; then
 #kmp-post.sh
 flavor=64kb
 %include %{S:4}
